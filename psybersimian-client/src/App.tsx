@@ -1,3 +1,4 @@
+import { Hero } from './components/Hero';
 import './App.css';
 
 export const App = () => {
@@ -5,6 +6,7 @@ export const App = () => {
     <>
       <div>
         <h1 className="text-3xl font-bold underline">Psybersimian</h1>
+        <Hero />
       </div>
     </>
   );
