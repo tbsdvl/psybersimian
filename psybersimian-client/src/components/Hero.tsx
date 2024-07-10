@@ -1,7 +1,7 @@
 export const Hero = () => {
     return (
     <>
-        <canvas></canvas>
+        <canvas id="renderCanvas"></canvas>
     </>
     );
 }
