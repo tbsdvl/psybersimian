@@ -127,6 +127,8 @@ export const Hero = () => {
                 bubble.rotation.y += 0.005;
                 bubble.rotation.x += 0.005;
                 bubble.rotation.z += 0.005;
+
+                bubble.subMeshes[0].getMesh().scaling.x += 0.005;
             }
 
             if (spheres.length === 10) {
