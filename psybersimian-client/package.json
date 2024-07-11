@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@babylonjs/core": "^7.14.0",
+    "@babylonjs/materials": "^7.15.0",
     "babylonjs-hook": "^0.1.1",
     "dotenv": "^16.4.5",
     "react": "^18.3.1",

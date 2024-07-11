@@ -1,4 +1,5 @@
-import { FreeCamera, Vector3, HemisphericLight, MeshBuilder, Scene, Mesh, StandardMaterial, Color3, PointLight, Texture } from "@babylonjs/core";
+import { FreeCamera, Vector3, HemisphericLight, MeshBuilder, Scene, Mesh, StandardMaterial, Color3, PointLight, Texture, Color4, PBRMaterial } from "@babylonjs/core";
+import { LavaMaterial } from '@babylonjs/materials';
 import SceneComponent from 'babylonjs-hook';
 import normalmap from '../assets/NormalMap.png';
 
@@ -22,6 +23,7 @@ class MovingSphere extends Mesh {
 
 export const Hero = () => {
     const onSceneReady = (scene: Scene) => {
+        scene.clearColor = new Color4(0, 0, 0);
         // This creates and positions a free camera (non-mesh)
         const camera = new FreeCamera("camera1", new Vector3(0, 5, 0), scene);
 
@@ -34,7 +36,10 @@ export const Hero = () => {
         camera.attachControl(canvas, true);
 
         // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-        const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+        var light = new HemisphericLight("hemiLight", new Vector3(-1, 1, 0), scene);
+        light.diffuse = new Color3(1, 0, 0);
+        light.specular = new Color3(0, 1, 0);
+        light.groundColor = new Color3(0, 1, 0);
 
         // Default intensity is 1. Let's dim the light a small amount
         light.intensity = 0.7;
@@ -51,19 +56,22 @@ export const Hero = () => {
             return MeshBuilder.CreateSphere(
                 `sphere-${spheres.length}`,
                 {
-                    segments: 50,
-                    updatable: true
+                    segments: 128,
+                    updatable: true,
                 },
                 scene
             ) as MovingSphere;
         }
 
         const positionSphere = (sphere: Mesh): void => {
-            var mat = new StandardMaterial("mat1", scene);
+            var mat = new PBRMaterial("mat1", scene);
             mat.bumpTexture = new Texture(normalmap, scene);
-            mat.alpha = 0.75;
-            mat.diffuseColor = new Color3(Math.random(), Math.random(), Math.random());
-            mat.specularColor = new Color3(Math.random(), Math.random(), Math.random());
+            mat.alpha = 1;
+            mat.metallic = 0.3;
+            mat.roughness = 0;
+            mat.subSurface.isTranslucencyEnabled = true;
+            mat.reflectionColor = new Color3(Math.random(), Math.random(), Math.random());
+            mat.metallicReflectanceColor = new Color3(Math.random(), Math.random(), Math.random());
             mat.emissiveColor = new Color3(Math.random(), Math.random(), Math.random());
             mat.backFaceCulling = false;
             sphere.material = mat;
