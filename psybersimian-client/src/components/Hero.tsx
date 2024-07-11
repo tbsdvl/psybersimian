@@ -37,7 +37,8 @@ export const Hero = () => {
 
         // sphere creation
         var mesh = MeshBuilder.CreateSphere('sphere', {
-            segments: 5
+            segments: 5,
+            updatable: true
         }, scene);
         mesh.material = mat;
 
@@ -47,7 +48,11 @@ export const Hero = () => {
         scene.registerBeforeRender(function() {
             // sphere update
             mesh = MeshBuilder.CreateSphere('sphere', {
-                segments: updateSegments(k)
+                segments: 5,
+                diameterX: updateSegments(k),
+                diameterY: updateSegments(k),
+                diameterZ: updateSegments(k),
+                updatable: true
             });
 
             if (k >= 5) {
