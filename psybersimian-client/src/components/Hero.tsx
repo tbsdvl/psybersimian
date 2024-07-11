@@ -70,6 +70,34 @@ export const Hero = () => {
             sphere.position.z = Math.random() * 3;
         }
 
+        const createBubble = () => {
+            // init sphere array
+            const sphereArr: Array<Mesh> = [];
+            // create some spheres
+            for(let i = 0; i < 3; i++) {
+                const sphere = MeshBuilder.CreateSphere(
+                    `bubble-sphere-${i}`,
+                    {
+                        segments: 50,
+                        updatable: true
+                    },
+                    scene);
+                    var mat = new StandardMaterial("mat1", scene);
+                mat.alpha = 1;
+                mat.diffuseColor = new Color3(Math.random(), Math.random(), Math.random());
+                mat.specularColor = new Color3(Math.random(), Math.random(), Math.random());
+                mat.emissiveColor = new Color3(Math.random(), Math.random(), Math.random());
+                mat.backFaceCulling = false;
+                sphere.material = mat;
+                sphere.position.y = Math.random() * 0.8;
+                sphere.position.x = Math.random() * 0.8;
+                sphere.position.z = Math.random() * 0.8;
+                sphereArr.push(sphere);
+            }
+
+            return Mesh.MergeMeshes(sphereArr);
+        }
+
         // add spheres to the array
         for (let i = 0; i < 10; i++) {
             const sphere = getSphere(scene, spheres);
@@ -85,11 +113,22 @@ export const Hero = () => {
             sphere.scaling.y = Math.random() * 2;
         }
 
+        const bubble = createBubble();
+
         const deltaTimeInMillis = scene.getEngine().getDeltaTime();
         const rpm = 10;
 
         scene.registerBeforeRender(async function() {
             // randomize the position of each sphere
+            if (bubble) {
+                bubble.position.y += 0.005;
+                bubble.position.x += 0.005;
+                bubble.position.z += 0.005;
+                bubble.rotation.y += 0.005;
+                bubble.rotation.x += 0.005;
+                bubble.rotation.z += 0.005;
+            }
+
             if (spheres.length === 10) {
                 for (let i = 0; i < spheres.length; i++) {
                     const yPosition = spheres[i].position.y;
@@ -117,24 +156,17 @@ export const Hero = () => {
                     spheres[i].rotation.y += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
                     spheres[i].rotation.x += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
                     spheres[i].rotation.z += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
-                    if (spheres[i].scaling.y >= 2 && spheres[i].scaleUp) {
+                    if (spheres[i].scaleUp) {
                         spheres[i].scaleUp = false;
                         spheres[i].scaleDown = true;
                         spheres[i].scaling.y -= Math.random() * 0.01;
                         spheres[i].scaling.x -= Math.random() * 0.01;
-                    } else if (spheres[i].scaling.y <= 0.5 && spheres[i].scaleDown) {
+                    } else if (spheres[i].scaleDown) {
                         spheres[i].scaleUp = true;
                         spheres[i].scaleDown = false;
                         spheres[i].scaling.y += Math.random() * 0.01;
                         spheres[i].scaling.x += Math.random() * 0.01;
-                    } else if (spheres[i].scaling.y <= 2 && spheres[i].scaling.y > 0.5 && spheres[i].scaleUp) {
-                        spheres[i].scaling.y += Math.random() * 0.01;
-                        spheres[i].scaling.x += Math.random() * 0.01;
-                    } else if (spheres[i].scaling.y <= 2 && spheres[i].scaling.y > 0.5 && spheres[i].scaleDown) {
-                        spheres[i].scaling.y -= Math.random() * 0.01;
-                        spheres[i].scaling.x -= Math.random() * 0.01;
                     }
-                    // spheres[i] = MeshBuilder.CreateSphere('', {diameterX: 1, diameterY: 0.5, diameterZ: 0.5, updatable: true}) as MovingSphere;
                 }
             }
 
