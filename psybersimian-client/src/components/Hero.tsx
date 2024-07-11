@@ -1,6 +1,20 @@
 import { FreeCamera, Vector3, HemisphericLight, MeshBuilder, Scene, Mesh, StandardMaterial, Color3, PointLight } from "@babylonjs/core";
 import SceneComponent from 'babylonjs-hook';
 
+class MovingSphere extends Mesh {
+    public going: boolean;
+    public down: boolean;
+
+    /**
+     *
+     */
+    constructor(name: string) {
+        super(name);
+        this.going = false;
+        this.down = false;
+    }
+}
+
 export const Hero = () => {
     const onSceneReady = (scene: Scene) => {
         // This creates and positions a free camera (non-mesh)
@@ -30,56 +44,64 @@ export const Hero = () => {
         mat.backFaceCulling = false;
 
         // create a new mesh queue
-        const spheres: Array<Mesh> = [];
+        const spheres: Array<MovingSphere> = [];
 
-        const getSphere = (scene: Scene, spheres: Array<Mesh>): Mesh => {
+        const getSphere = (scene: Scene, spheres: Array<MovingSphere>): MovingSphere => {
             return MeshBuilder.CreateSphere(
                 `sphere-${spheres.length}`,
                 {
                     segments: 50
                 },
                 scene
-            );
+            ) as MovingSphere;
         }
 
-        const getSpherePromise = (scene: Scene, spheres: Array<Mesh>): Promise<Mesh> => {
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    const sphere = getSphere(scene, spheres);
-                    spheres.unshift(sphere);
-                    if (sphere) {
-                        resolve(sphere);
-                    } else {
-                        reject();
-                    }
-                }, 1000);
-            });
+        const positionSphere = (sphere: Mesh): void => {
+            sphere.material = mat;
+            sphere.position.x = Math.random() * 3;
+            sphere.position.y = Math.random() * 3;
+            sphere.position.z = Math.random() * 3;
         }
 
-        const positionSpherePromise = (scene: Scene, spheres: Array<Mesh>): Promise<void> => {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    setInterval(async () => {
-                        const newSphere: Mesh = await getSpherePromise(scene, spheres);
-                        newSphere.material = mat;
-                        newSphere.position.x = Math.random() * 10;
-                        newSphere.position.y = Math.random() * 10;
-                        newSphere.position.z = Math.random() * 10;
-                        resolve();
-                    }, 5000);
-                } catch (ex) {
-                    reject();
-                }
-            })
+        // add 10 spheres to the array
+        for (let i = 0; i < 50; i++) {
+            const sphere = getSphere(scene, spheres);
+            spheres.unshift(sphere);
+            positionSphere(sphere);
+
+            if (sphere.position.y >= 3) {
+                sphere.down = true;
+            } else {
+                sphere.going = true;
+            }
         }
 
         scene.registerBeforeRender(async function() {
-            if (spheres.length < 10) {
-                    await positionSpherePromise(scene, spheres);
-            } else {
-                const lastSphere: Mesh | undefined = spheres.pop();
-                if (lastSphere) {
-                    scene.removeMesh(lastSphere);
+            // randomize the position of each sphere
+            if (spheres.length === 50) {
+                for (let i = 0; i < spheres.length; i++) {
+                    const yPosition = spheres[i].position.y;
+                    if (yPosition >= 3 && spheres[i].going) {
+                        spheres[i].going = false;
+                        spheres[i].down = true;
+                        spheres[i].position.y -= 0.01;
+                        spheres[i].position.z -= 0.05;
+                        spheres[i].position.x -= 0.05;
+                    } else if (yPosition <= 0 && spheres[i].down) {
+                        spheres[i].down = false;
+                        spheres[i].going = true;
+                        spheres[i].position.y += 0.01;
+                        spheres[i].position.z += 0.05;
+                        spheres[i].position.x += 0.05;
+                    } else if (yPosition < 3 && yPosition > 0 && spheres[i].going) {
+                        spheres[i].position.y += 0.01;
+                        spheres[i].position.z += 0.05;
+                        spheres[i].position.x += 0.05;
+                    } else if (yPosition < 3 && yPosition > 0 && spheres[i].down) {
+                        spheres[i].position.y -= 0.01;
+                        spheres[i].position.z -= 0.05;
+                        spheres[i].position.x -= 0.05;
+                    }
                 }
             }
 
@@ -87,8 +109,7 @@ export const Hero = () => {
         });
     };
 
-    const onRender = async (scene: Scene) => {
-    };
+    const onRender = async (scene: Scene) => {};
 
     return (
         <>
