@@ -33,24 +33,23 @@ export const Hero = () => {
         // create a new mesh queue
         const spheres: Array<Mesh> = [];
 
-        const createSphere = (scene: Scene, spheres: Array<Mesh>): Mesh => {
-            const sphere = MeshBuilder.CreateSphere(
+        const getSphere = (scene: Scene, spheres: Array<Mesh>): Mesh => {
+            return MeshBuilder.CreateSphere(
                 `sphere-${spheres.length}`,
                 {
                     segments: 50
                 },
                 scene
             );
-            spheres.unshift(sphere);
-            return sphere;
         }
 
-        const createSpherePromise = (scene: Scene, spheres: Array<Mesh>): Promise<Mesh> => {
+        const getSpherePromise = (scene: Scene, spheres: Array<Mesh>): Promise<Mesh> => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    const newSphere = createSphere(scene, spheres);
-                    if (newSphere) {
-                        resolve(newSphere);
+                    const sphere = getSphere(scene, spheres);
+                    spheres.unshift(sphere);
+                    if (sphere) {
+                        resolve(sphere);
                     } else {
                         reject();
                     }
@@ -61,11 +60,10 @@ export const Hero = () => {
         scene.registerBeforeRender(async function() {
             setTimeout(async () => {
                 if (spheres.length < 10) {
-                    const latestSphere: Mesh = await createSpherePromise(scene, spheres);
-
-                    latestSphere.material = mat;
-                    latestSphere.position.x = Math.random();
-                    latestSphere.position.y = Math.random();
+                    const newSphere: Mesh = await getSpherePromise(scene, spheres);
+                    newSphere.material = mat;
+                    newSphere.position.x = Math.random();
+                    newSphere.position.y = Math.random();
                 } else {
                     const lastSphere: Mesh | undefined = spheres.pop();
                     if (lastSphere) {
