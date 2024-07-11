@@ -2,11 +2,10 @@ import { FreeCamera, Vector3, HemisphericLight, MeshBuilder, Scene, Mesh, Standa
 import SceneComponent from 'babylonjs-hook';
 
 export const Hero = () => {
-    let ribbon: Mesh;
 
     const onSceneReady = (scene: Scene) => {
         // This creates and positions a free camera (non-mesh)
-        const camera = new FreeCamera("camera1", new Vector3(0, 3, 0), scene);
+        const camera = new FreeCamera("camera1", new Vector3(0, 5, 0), scene);
 
         // This targets the camera to scene origin
         camera.setTarget(Vector3.Zero());
@@ -31,37 +30,49 @@ export const Hero = () => {
         mat.diffuseColor = new Color3(0.5, 0.5, 1.0);
         mat.backFaceCulling = false;
 
-        const updateSegments = (segements: number) => {
-            return Math.round(Math.random() * segements);
+        // create a new mesh queue
+        const spheres: Array<Mesh> = [];
+
+        const createSphere = (scene: Scene, spheres: Array<Mesh>): Mesh => {
+            const sphere = MeshBuilder.CreateSphere(
+                `sphere-${spheres.length}`,
+                {
+                    segments: 50
+                },
+                scene
+            );
+            spheres.unshift(sphere);
+            return sphere;
         }
 
-        // sphere creation
-        var mesh = MeshBuilder.CreateSphere('sphere', {
-            segments: 5,
-            updatable: true
-        }, scene);
-        mesh.material = mat;
-
-
-        // morphing
-        var k = 5;
-        scene.registerBeforeRender(function() {
-            // sphere update
-            mesh = MeshBuilder.CreateSphere('sphere', {
-                segments: 5,
-                diameterX: updateSegments(k),
-                diameterY: updateSegments(k),
-                diameterZ: updateSegments(k),
-                updatable: true
+        const createSpherePromise = (scene: Scene, spheres: Array<Mesh>): Promise<Mesh> => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    const newSphere = createSphere(scene, spheres);
+                    if (newSphere) {
+                        resolve(newSphere);
+                    } else {
+                        reject();
+                    }
+                }, 5000);
             });
+        }
 
-            if (k >= 5) {
-                k -= 0.5;
-            } else if (k < 50 && k > 0){
-                k -= 0.5;
-            } else if (k <= 0) {
-                k = 5;
-            }
+        scene.registerBeforeRender(async function() {
+            setTimeout(async () => {
+                if (spheres.length < 10) {
+                    const latestSphere: Mesh = await createSpherePromise(scene, spheres);
+
+                    latestSphere.material = mat;
+                    latestSphere.position.x = Math.random();
+                    latestSphere.position.y = Math.random();
+                } else {
+                    const lastSphere: Mesh | undefined = spheres.pop();
+                    if (lastSphere) {
+                        scene.removeMesh(lastSphere);
+                    }
+                }
+            }, 5000);
 
             pl.position = camera.position;
         });
@@ -71,11 +82,7 @@ export const Hero = () => {
      * Will run on every frame render.  We are spinning the box on y-axis.
      */
     const onRender = (scene: Scene) => {
-        if (ribbon !== undefined) {
-            // const deltaTimeInMillis = scene.getEngine().getDeltaTime();
-            // const rpm = 10;
-            // // ribbon.rotation.y += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
-        }
+
     };
 
     return (
