@@ -63,7 +63,7 @@ export const Hero = () => {
             sphere.position.z = Math.random() * 3;
         }
 
-        // add 10 spheres to the array
+        // add spheres to the array
         for (let i = 0; i < 50; i++) {
             const sphere = getSphere(scene, spheres);
             spheres.unshift(sphere);
