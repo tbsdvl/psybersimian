@@ -38,10 +38,6 @@ export const Hero = () => {
         pl.diffuse = new Color3(1, 1, 1);
         pl.specular = new Color3(1, 0, 0);
         pl.intensity = 0.95;
-        var mat = new StandardMaterial("mat1", scene);
-        mat.alpha = 1.0;
-        mat.diffuseColor = new Color3(0.5, 0.5, 1.0);
-        mat.backFaceCulling = false;
 
         // create a new mesh queue
         const spheres: Array<MovingSphere> = [];
@@ -57,6 +53,12 @@ export const Hero = () => {
         }
 
         const positionSphere = (sphere: Mesh): void => {
+            var mat = new StandardMaterial("mat1", scene);
+            mat.alpha = 0.75;
+            mat.diffuseColor = new Color3(Math.random(), Math.random(), Math.random());
+            mat.specularColor = new Color3(Math.random(), Math.random(), Math.random());
+            mat.emissiveColor = new Color3(Math.random(), Math.random(), Math.random());
+            mat.backFaceCulling = false;
             sphere.material = mat;
             sphere.position.x = Math.random() * 3;
             sphere.position.y = Math.random() * 3;
@@ -76,6 +78,9 @@ export const Hero = () => {
             }
         }
 
+        const deltaTimeInMillis = scene.getEngine().getDeltaTime();
+        const rpm = 10;
+
         scene.registerBeforeRender(async function() {
             // randomize the position of each sphere
             if (spheres.length === 50) {
@@ -84,24 +89,27 @@ export const Hero = () => {
                     if (yPosition >= 3 && spheres[i].going) {
                         spheres[i].going = false;
                         spheres[i].down = true;
-                        spheres[i].position.y -= 0.01;
-                        spheres[i].position.z -= 0.05;
-                        spheres[i].position.x -= 0.05;
+                        spheres[i].position.y -= 0.005;
+                        spheres[i].position.z -= 0.005;
+                        spheres[i].position.x -= 0.005;
                     } else if (yPosition <= 0 && spheres[i].down) {
                         spheres[i].down = false;
                         spheres[i].going = true;
-                        spheres[i].position.y += 0.01;
-                        spheres[i].position.z += 0.05;
-                        spheres[i].position.x += 0.05;
+                        spheres[i].position.y += 0.005;
+                        spheres[i].position.z += 0.005;
+                        spheres[i].position.x += 0.005;
                     } else if (yPosition < 3 && yPosition > 0 && spheres[i].going) {
-                        spheres[i].position.y += 0.01;
-                        spheres[i].position.z += 0.05;
-                        spheres[i].position.x += 0.05;
+                        spheres[i].position.y += 0.005;
+                        spheres[i].position.z += 0.005;
+                        spheres[i].position.x += 0.005;
                     } else if (yPosition < 3 && yPosition > 0 && spheres[i].down) {
-                        spheres[i].position.y -= 0.01;
-                        spheres[i].position.z -= 0.05;
-                        spheres[i].position.x -= 0.05;
+                        spheres[i].position.y -= 0.005;
+                        spheres[i].position.z -= 0.005;
+                        spheres[i].position.x -= 0.005;
                     }
+                    spheres[i].rotation.y += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
+                    spheres[i].rotation.x += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
+                    spheres[i].rotation.z += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
                 }
             }
 
