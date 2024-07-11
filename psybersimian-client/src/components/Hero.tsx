@@ -2,7 +2,6 @@ import { FreeCamera, Vector3, HemisphericLight, MeshBuilder, Scene, Mesh, Standa
 import SceneComponent from 'babylonjs-hook';
 
 export const Hero = () => {
-
     const onSceneReady = (scene: Scene) => {
         // This creates and positions a free camera (non-mesh)
         const camera = new FreeCamera("camera1", new Vector3(0, 5, 0), scene);
@@ -53,34 +52,42 @@ export const Hero = () => {
                     } else {
                         reject();
                     }
-                }, 5000);
+                }, 1000);
             });
         }
 
-        scene.registerBeforeRender(async function() {
-            setTimeout(async () => {
-                if (spheres.length < 10) {
-                    const newSphere: Mesh = await getSpherePromise(scene, spheres);
-                    newSphere.material = mat;
-                    newSphere.position.x = Math.random();
-                    newSphere.position.y = Math.random();
-                } else {
-                    const lastSphere: Mesh | undefined = spheres.pop();
-                    if (lastSphere) {
-                        scene.removeMesh(lastSphere);
-                    }
+        const positionSpherePromise = (scene: Scene, spheres: Array<Mesh>): Promise<void> => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    setInterval(async () => {
+                        const newSphere: Mesh = await getSpherePromise(scene, spheres);
+                        newSphere.material = mat;
+                        newSphere.position.x = Math.random() * 10;
+                        newSphere.position.y = Math.random() * 10;
+                        newSphere.position.z = Math.random() * 10;
+                        resolve();
+                    }, 5000);
+                } catch (ex) {
+                    reject();
                 }
-            }, 5000);
+            })
+        }
+
+        scene.registerBeforeRender(async function() {
+            if (spheres.length < 10) {
+                    await positionSpherePromise(scene, spheres);
+            } else {
+                const lastSphere: Mesh | undefined = spheres.pop();
+                if (lastSphere) {
+                    scene.removeMesh(lastSphere);
+                }
+            }
 
             pl.position = camera.position;
         });
     };
 
-    /**
-     * Will run on every frame render.  We are spinning the box on y-axis.
-     */
-    const onRender = (scene: Scene) => {
-
+    const onRender = async (scene: Scene) => {
     };
 
     return (
