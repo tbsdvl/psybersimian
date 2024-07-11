@@ -31,12 +31,18 @@ export const Hero = () => {
     return MeshBuilder.CreateSphere(
       `sphere-${spheres.length}`,
       {
-        segments: 128,
+        segments: 50,
         updatable: true,
       },
       scene
     ) as AnimatedMesh;
   };
+
+  const randomizeMaterialColor = (mat: PBRMaterial): void => {
+    mat.reflectionColor = getRandomColor();
+    mat.metallicReflectanceColor = getRandomColor();
+    mat.emissiveColor = getRandomColor();
+  }
 
   const setMeshPBRMaterial = (scene: Scene, mesh: Mesh): void => {
     var mat = new PBRMaterial("mat1", scene);
@@ -45,9 +51,7 @@ export const Hero = () => {
     mat.metallic = 0.3;
     mat.roughness = 0;
     mat.subSurface.isTranslucencyEnabled = true;
-    mat.reflectionColor = getRandomColor();
-    mat.metallicReflectanceColor = getRandomColor();
-    mat.emissiveColor = getRandomColor();
+    randomizeMaterialColor(mat);
     mat.backFaceCulling = false;
     mesh.material = mat;
   };
@@ -97,12 +101,14 @@ export const Hero = () => {
           currentSphere.position.y -= coordinateDifference;
           currentSphere.position.z -= coordinateDifference;
           currentSphere.position.x -= coordinateDifference;
+          randomizeMaterialColor(currentSphere.material as PBRMaterial);
         } else if (yPosition <= minYPosition && currentSphere.isMovingToBottom) {
           currentSphere.isMovingToBottom = false;
           currentSphere.isMovingToTop = true;
           currentSphere.position.y += coordinateDifference;
           currentSphere.position.z += coordinateDifference;
           currentSphere.position.x += coordinateDifference;
+          randomizeMaterialColor(currentSphere.material as PBRMaterial);
         } else if (yPosition < maxYPositionCoordinate && yPosition > minYPosition && currentSphere.isMovingToTop) {
           currentSphere.position.y += coordinateDifference;
           currentSphere.position.z += coordinateDifference;
@@ -116,16 +122,26 @@ export const Hero = () => {
         currentSphere.rotation.y += getRotationSpeed(scene);
         currentSphere.rotation.x += getRotationSpeed(scene);
         currentSphere.rotation.z += getRotationSpeed(scene);
-        if (currentSphere.isScalingUp) {
+        if (currentSphere.isScalingUp && currentSphere.scaling.y >= 1) {
           currentSphere.isScalingUp = false;
           currentSphere.isScalingDown = true;
-          currentSphere.scaling.y -= getRandomNumber(0.01);
-          currentSphere.scaling.x -= getRandomNumber(0.01);
-        } else if (currentSphere.isScalingDown) {
+          currentSphere.scaling.y -= getRandomNumber(0.005);
+          currentSphere.scaling.x -= getRandomNumber(0.005);
+          currentSphere.scaling.z -= getRandomNumber(0.005);
+        } else if (currentSphere.isScalingDown && currentSphere.scaling.y < 1) {
           currentSphere.isScalingUp = true;
           currentSphere.isScalingDown = false;
-          currentSphere.scaling.y += getRandomNumber(0.01);
-          currentSphere.scaling.x += getRandomNumber(0.01);
+          currentSphere.scaling.y += getRandomNumber(0.005);
+          currentSphere.scaling.x += getRandomNumber(0.005);
+          currentSphere.scaling.z += getRandomNumber(0.005);
+        } else if (currentSphere.isScalingUp) {
+            currentSphere.scaling.y += getRandomNumber(0.005);
+            currentSphere.scaling.x += getRandomNumber(0.005);
+            currentSphere.scaling.z += getRandomNumber(0.005);
+        } else if (currentSphere.isScalingDown) {
+            currentSphere.scaling.y -= getRandomNumber(0.005);
+            currentSphere.scaling.x -= getRandomNumber(0.005);
+            currentSphere.scaling.z -= getRandomNumber(0.005);
         }
       }
     }
@@ -134,8 +150,14 @@ export const Hero = () => {
   const onSceneReady = (scene: Scene): void => {
     scene.clearColor = new Color4(0, 0, 0);
 
-    const camera = new FreeCamera("camera1", new Vector3(0, 5, 0), scene);
-    camera.setTarget(Vector3.Zero());
+    const camera = new FreeCamera("camera1", new Vector3(9, 0, 5), scene);
+    camera.setTarget(new Vector3(2, 10, 5));
+
+    // disable camera controls
+    camera.inputs.addMouse();
+    if (camera.inputs._mouseInput) {
+        camera.inputs._mouseInput.buttons = [2];
+    }
 
     const canvas = scene.getEngine().getRenderingCanvas();
     camera.attachControl(canvas, true);
@@ -144,26 +166,32 @@ export const Hero = () => {
     const pl = getPointLight(scene);
 
     const spheres: Array<AnimatedMesh> = [];
-    const maxNumOfMeshes = 30;
-    const maxYPositionCoordinate = 5;
-    const maxYScaleCoordinate = 2;
+    const maxNumOfMeshes = 100;
+    const maxYPositionCoordinate = 12;
+    const maxYScaleCoordinate = 1;
     for (let i = 0; i < maxNumOfMeshes; i++) {
       const sphere: AnimatedMesh = getSphere(scene, spheres);
       spheres.unshift(sphere);
       setMeshPBRMaterial(scene, sphere);
       positionMesh(sphere, maxYPositionCoordinate);
 
-      if (sphere.position.y >= maxYPositionCoordinate) {
-        sphere.isMovingToBottom = true;
+      if (Math.random() * maxNumOfMeshes >= 50) {
+          sphere.isMovingToBottom = true;
+          sphere.isScalingUp = true;
       } else {
         sphere.isMovingToTop = true;
       }
 
-      sphere.scaling.y = Math.random() * maxYScaleCoordinate;
+        sphere.scaling.y = Math.random() * maxYScaleCoordinate;
+        if (sphere.scaling.y < maxYScaleCoordinate) {
+            sphere.isScalingUp = true;
+        } else if (sphere.scaling.y >= maxYScaleCoordinate) {
+            sphere.isScalingDown = true;
+        }
     }
 
     const minYPosition: number = 0;
-    const coordinateDifference: number = 0.005;
+    const coordinateDifference: number = 0.025;
     scene.registerBeforeRender(async function () {
       // animate the randomized positions of each sphere
       animateSpheres(
