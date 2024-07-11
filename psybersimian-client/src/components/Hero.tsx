@@ -4,6 +4,8 @@ import SceneComponent from 'babylonjs-hook';
 class MovingSphere extends Mesh {
     public going: boolean;
     public down: boolean;
+    public scaleUp: boolean;
+    public scaleDown: boolean;
 
     /**
      *
@@ -12,6 +14,8 @@ class MovingSphere extends Mesh {
         super(name);
         this.going = false;
         this.down = false;
+        this.scaleUp = false;
+        this.scaleDown = false;
     }
 }
 
@@ -46,7 +50,8 @@ export const Hero = () => {
             return MeshBuilder.CreateSphere(
                 `sphere-${spheres.length}`,
                 {
-                    segments: 50
+                    segments: 50,
+                    updatable: true
                 },
                 scene
             ) as MovingSphere;
@@ -66,7 +71,7 @@ export const Hero = () => {
         }
 
         // add spheres to the array
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 10; i++) {
             const sphere = getSphere(scene, spheres);
             spheres.unshift(sphere);
             positionSphere(sphere);
@@ -76,6 +81,8 @@ export const Hero = () => {
             } else {
                 sphere.going = true;
             }
+
+            sphere.scaling.y = Math.random() * 2;
         }
 
         const deltaTimeInMillis = scene.getEngine().getDeltaTime();
@@ -83,7 +90,7 @@ export const Hero = () => {
 
         scene.registerBeforeRender(async function() {
             // randomize the position of each sphere
-            if (spheres.length === 50) {
+            if (spheres.length === 10) {
                 for (let i = 0; i < spheres.length; i++) {
                     const yPosition = spheres[i].position.y;
                     if (yPosition >= 3 && spheres[i].going) {
@@ -110,6 +117,24 @@ export const Hero = () => {
                     spheres[i].rotation.y += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
                     spheres[i].rotation.x += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
                     spheres[i].rotation.z += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
+                    if (spheres[i].scaling.y >= 2 && spheres[i].scaleUp) {
+                        spheres[i].scaleUp = false;
+                        spheres[i].scaleDown = true;
+                        spheres[i].scaling.y -= Math.random() * 0.01;
+                        spheres[i].scaling.x -= Math.random() * 0.01;
+                    } else if (spheres[i].scaling.y <= 0.5 && spheres[i].scaleDown) {
+                        spheres[i].scaleUp = true;
+                        spheres[i].scaleDown = false;
+                        spheres[i].scaling.y += Math.random() * 0.01;
+                        spheres[i].scaling.x += Math.random() * 0.01;
+                    } else if (spheres[i].scaling.y <= 2 && spheres[i].scaling.y > 0.5 && spheres[i].scaleUp) {
+                        spheres[i].scaling.y += Math.random() * 0.01;
+                        spheres[i].scaling.x += Math.random() * 0.01;
+                    } else if (spheres[i].scaling.y <= 2 && spheres[i].scaling.y > 0.5 && spheres[i].scaleDown) {
+                        spheres[i].scaling.y -= Math.random() * 0.01;
+                        spheres[i].scaling.x -= Math.random() * 0.01;
+                    }
+                    // spheres[i] = MeshBuilder.CreateSphere('', {diameterX: 1, diameterY: 0.5, diameterZ: 0.5, updatable: true}) as MovingSphere;
                 }
             }
 
