@@ -205,7 +205,9 @@ export const Hero = () => {
     });
   };
 
-  const onRender = async (scene: Scene) => {};
+  const onRender = async (scene: Scene) => {
+    scene;
+  };
 
   return (
     <>
