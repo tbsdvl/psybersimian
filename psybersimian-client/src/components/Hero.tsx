@@ -1,5 +1,6 @@
-import { FreeCamera, Vector3, HemisphericLight, MeshBuilder, Scene, Mesh, StandardMaterial, Color3, PointLight } from "@babylonjs/core";
+import { FreeCamera, Vector3, HemisphericLight, MeshBuilder, Scene, Mesh, StandardMaterial, Color3, PointLight, Texture } from "@babylonjs/core";
 import SceneComponent from 'babylonjs-hook';
+import normalmap from '../assets/NormalMap.png';
 
 class MovingSphere extends Mesh {
     public going: boolean;
@@ -59,6 +60,7 @@ export const Hero = () => {
 
         const positionSphere = (sphere: Mesh): void => {
             var mat = new StandardMaterial("mat1", scene);
+            mat.bumpTexture = new Texture(normalmap, scene);
             mat.alpha = 0.75;
             mat.diffuseColor = new Color3(Math.random(), Math.random(), Math.random());
             mat.specularColor = new Color3(Math.random(), Math.random(), Math.random());
@@ -82,7 +84,8 @@ export const Hero = () => {
                         updatable: true
                     },
                     scene);
-                    var mat = new StandardMaterial("mat1", scene);
+                var mat = new StandardMaterial("mat1", scene);
+                mat.bumpTexture = new Texture(normalmap, scene);
                 mat.alpha = 1;
                 mat.diffuseColor = new Color3(Math.random(), Math.random(), Math.random());
                 mat.specularColor = new Color3(Math.random(), Math.random(), Math.random());
