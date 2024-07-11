@@ -6,7 +6,7 @@ export const Hero = () => {
 
     const onSceneReady = (scene: Scene) => {
         // This creates and positions a free camera (non-mesh)
-        const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
+        const camera = new FreeCamera("camera1", new Vector3(0, 3, 0), scene);
 
         // This targets the camera to scene origin
         camera.setTarget(Vector3.Zero());
@@ -31,50 +31,33 @@ export const Hero = () => {
         mat.diffuseColor = new Color3(0.5, 0.5, 1.0);
         mat.backFaceCulling = false;
 
-        // path function
-        var pathFunction = function(k: number): Array<Vector3> {
-            var path = [];
-            for (var i = 0; i < 60; i++) {
-            var x =  i - 30;
-            var y = 0;
-            var z = k;
-            path.push(new Vector3(x, y, z));
-            }
-            return path;
-        };
-
-        // update path function
-        var updatePath = function(path: Array<Vector3>, k: number) {
-            for (var i = 0; i < path.length; i++) {
-            var x = path[i].x;
-            var z = path[i].z;
-            var y = 20 * Math.sin(i/ 10) * Math.sin(k + z / 40);
-            path[i].x = x;
-            path[i].y = y;
-            path[i].z = z;
-            }
-        };
-
-        // ribbon creation
-        var sideO = Mesh.BACKSIDE;
-        var pathArray: Array<Array<Vector3>> = [];
-        for(var i = -20; i < 20; i++) {
-            pathArray.push(pathFunction(i * 2));
+        const updateSegments = (segements: number) => {
+            return Math.round(Math.random() * segements);
         }
-        var mesh = Mesh.CreateRibbon("ribbon", pathArray, false, false, 0, scene, true, sideO);
+
+        // sphere creation
+        var mesh = MeshBuilder.CreateSphere('sphere', {
+            segments: 5
+        }, scene);
         mesh.material = mat;
 
 
         // morphing
-        var k = 0;
+        var k = 5;
         scene.registerBeforeRender(function() {
-            // update pathArray
-            for(var p = 0; p < pathArray.length; p++) {
-                updatePath(pathArray[p], k);
+            // sphere update
+            mesh = MeshBuilder.CreateSphere('sphere', {
+                segments: updateSegments(k)
+            });
+
+            if (k >= 5) {
+                k -= 0.5;
+            } else if (k < 50 && k > 0){
+                k -= 0.5;
+            } else if (k <= 0) {
+                k = 5;
             }
-            // ribbon update
-            mesh = Mesh.CreateRibbon('', pathArray, false, false, 0, undefined, false, 0, mesh);
-            k += 0.05;
+
             pl.position = camera.position;
         });
     };
