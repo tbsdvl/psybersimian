@@ -20,12 +20,13 @@ export const NotFound = () => {
             animateDots();
         })();
     }, [dots]);
+
     return (
         <div className="w-screen flex flex-col justify-center">
             <p className='glow dot align-center text-center animate-pulse relative shadow-md'>
                 ERROR
             </p>
-            <div className='flex flex-row justify-center text-ivory text-6xl align-center text-center relative p-5'>
+            <div className='flex flex-row justify-center text-ivory text-3xl align-center text-center relative p-5 lg:text-6xl'>
                 Something is missing{<p className='animate-repeatFade'>{dots}</p>}
             </div>
         </div>

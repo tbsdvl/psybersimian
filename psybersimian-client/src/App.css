@@ -106,7 +106,7 @@
   font-family: system-ui, sans-serif;
   height: var(--size);
   justify-content: space-around;
-  padding: 1rem;
+  padding: 2rem;
   width: var(--size);
 
   text-shadow: 0 1px 0 rgb(120, 0, 0), 0 2px 0 rgb(120, 0, 0),
@@ -117,14 +117,15 @@
   0 11px 0 rgb(120, 0, 0), 0 12px 0 rgb(120, 0, 0),
   0 20px 30px rgba(0, 0, 0, 0.5);
 
-  /* rgb(120, 0, 0) */
-
   > * {
     margin: 0;
     padding: 0;
   }
 
   &.dot { --color: red; filter: saturate(175%); font-size: 15rem; }
-  &.message { --color: white; filter: saturate(175%); font-size: 5rem; }
+
+  @media (max-width: 1024px) {
+    &.dot { font-size: 5rem; }
+  }
 }
 
