@@ -216,6 +216,7 @@ export const Hero = () => {
         onSceneReady={onSceneReady}
         onRender={onRender}
         id="my-canvas"
+        className="opacity-85"
       />
     </>
   );
