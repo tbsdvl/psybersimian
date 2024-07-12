@@ -191,7 +191,7 @@ export const Hero = ({ isLoaded, setIsLoaded }: { isLoaded: boolean, setIsLoaded
     }
 
     const minYPosition: number = 0;
-    const coordinateDifference: number = 0.025;
+    const coordinateDifference: number = 0.009;
     scene.registerBeforeRender(async function () {
       // animate the randomized positions of each sphere
       animateSpheres(
@@ -219,7 +219,7 @@ export const Hero = ({ isLoaded, setIsLoaded }: { isLoaded: boolean, setIsLoaded
         onSceneReady={onSceneReady}
         onRender={onRender}
         id="my-canvas"
-        className="opacity-80"
+        className="opacity-60"
       />
     </>
   );
