@@ -75,11 +75,11 @@ export const Home = () => {
           </Card>
         </Section>
         <Section style={"bg-lamplight-yellow h-screen"}>
-          <Card animationStyle={"card box-border h-6/12 w-3/4 p-4 shadow-lg m-10 shadow-black"}>
+          <Card animationStyle={"card box-border h-6/12 w-3/4 p-4 shadow-lg m-10 shadow-black lg:"}>
             <h2 className="ibm-plex-sans-regular text-5xl text-midnight-black text-center mt-2">Our Team</h2>
-            <div className="flex flex-row justify-center">
+            <div className="flex flex-col lg:flex-row justify-center items-center">
               <img className='h-1/3 w-1/3 box-border shadow-md shadow-black rounded-xl mt-10 lg:mt-3' src={developer} />
-              <Paragraph textStyle={"ibm-plex-sans-regular text-sm text-midnight-black text-start mt-5 ms-10 p-5 lg:text-3xl"} text={'Our team comprises a number of talented, well-rounded engineers with solid reputations across multiple public and private sector organizations. We work diligently with our customers so that satisfaction is guaranteed upon product delivery.'}/>
+              <Paragraph textStyle={"ibm-plex-sans-regular text-lg text-midnight-black text-start mt-5 ms-10 p-5 lg:text-3xl"} text={'Our team comprises a number of talented, well-rounded engineers with solid reputations across multiple public and private sector organizations. We work diligently with our customers so that satisfaction is guaranteed upon product delivery.'}/>
             </div>
           </Card>
         </Section>
