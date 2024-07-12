@@ -129,40 +129,28 @@
   }
 }
 
-.expandable {
-  background: #fff;
-  overflow: hidden;
-
-  transition: all .5s ease-in-out;
-  line-height: 0;
-  padding: 0 1em;
-  color: transparent;
-}
-
-.expandable:target {
-  line-height: 1.5;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  color: black;
-}
-
 .card {
-  width: 200px;
-  height: 200px;
-  background: orange;
+  width: 50vw;
+  height: 50vh;
+  background-color: rgb(248 250 252);
+  animation-fill-mode: forwards;
 }
 
-@keyframes wipe-enter {
+@keyframes expand {
 	0% {
-		transform: scale(0, .025);
+		transform: scaleY(0);
+    opacity: 0;
+    visibility: hidden;
 	}
-	50% {
-		transform: scale(1, .025);
+	100% {
+		transform: scaleY(1);
+    opacity: 1;
+    visibility: visible;
 	}
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .card-animation {
-    animation: wipe-enter 1s 1;
+    animation: expand 1s 1;
   }
 }

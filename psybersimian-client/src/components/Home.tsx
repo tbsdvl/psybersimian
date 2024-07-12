@@ -47,8 +47,9 @@ export const Home = () => {
         { count === baseTagLine.length ? <p className="ibm-plex-sans-regular text-balance text-xl text-ivory text-center z-20 mt-72 absolute ms-3 animate-fade md:text-5xl lg:text-7xl md:text-wrap">Crafting tailored software solutions to propel business growth and efficiency.</p> : null }
         <Hero isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
         <Section style={"bg-ivory"}>
-          <Card />
-          <Paragraph textStyle={"ibm-plex-sans-regular text-5xl text-midnight-black text-center h-screen"} text={'Coming soon...'}/>
+          <Card>
+            <Paragraph textStyle={"ibm-plex-sans-regular text-5xl text-midnight-black text-center h-screen"} text={'Coming soon...'}/>
+          </Card>
         </Section>
         <Section style={"bg-lamplight-yellow"}>
           <Paragraph textStyle={"ibm-plex-sans-regular text-5xl text-midnight-black text-center h-screen"} text={'Coming soon...'}/>
