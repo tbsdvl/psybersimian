@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Hero } from './Hero';
 import { Section } from './Section';
 import { Paragraph } from './Paragraph';
+import { Card } from './Card';
 
 export const Home = () => {
   const [count, setCount] = useState(0);
@@ -46,6 +47,7 @@ export const Home = () => {
         { count === baseTagLine.length ? <p className="ibm-plex-sans-regular text-balance text-xl text-ivory text-center z-20 mt-72 absolute ms-3 animate-fade md:text-5xl lg:text-7xl md:text-wrap">Crafting tailored software solutions to propel business growth and efficiency.</p> : null }
         <Hero isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
         <Section style={"bg-ivory"}>
+          <Card />
           <Paragraph textStyle={"ibm-plex-sans-regular text-5xl text-midnight-black text-center h-screen"} text={'Coming soon...'}/>
         </Section>
         <Section style={"bg-lamplight-yellow"}>
