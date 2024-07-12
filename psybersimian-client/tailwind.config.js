@@ -9,6 +9,8 @@ export default {
       'blush-red': '#EF3340',
       'midnight-black': '#000c20',
       'ivory': '#FFFAE0',
+      'lamplight-yellow': '#F1B420',
+      'honeysuckle': '#DC8391',
     },
     extend: {
       animation: {
