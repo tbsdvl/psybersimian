@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Hero } from './components/Hero';
 import './App.css';
+import { Header } from './components/Header';
 
 export const App = () => {
   const [count, setCount] = useState(0);
@@ -40,7 +41,7 @@ export const App = () => {
   return (
     <>
       <div>
-        <h1 className="libre-barcode-39-text-regular text-blush-red text-5xl text-center">Psybersimian</h1>
+        <Header />
         <p className="press-start-2p-regular text-nowrap text-sm text-ivory text-center z-50 mt-5 absolute ms-5 lg:text-4xl md:text-wrap">{tagLine}</p>
         <Hero />
         <p className="ibm-plex-sans-regular text-5xl text-ivory text-center">Coming soon...</p>
