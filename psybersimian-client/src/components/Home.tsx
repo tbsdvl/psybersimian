@@ -42,8 +42,8 @@ export const Home = () => {
   return (
     <>
       <div id="home">
-        <p className="press-start-2p-regular text-nowrap text-sm text-ivory text-center z-50 mt-44 absolute ms-5 md:text-2xl lg:text-4xl md:text-wrap md:ms-9">{tagLine}</p>
-        { count === baseTagLine.length ? <p className="ibm-plex-sans-regular text-balance text-xl text-ivory text-center z-50 mt-72 absolute ms-3 animate-fade md:text-5xl lg:text-7xl md:text-wrap">Crafting tailored software solutions propelling business growth and efficiency.</p> : null }
+        <p className="press-start-2p-regular text-nowrap text-sm text-ivory text-center z-20 mt-44 absolute ms-5 md:text-2xl lg:text-4xl md:text-wrap md:ms-9">{tagLine}</p>
+        { count === baseTagLine.length ? <p className="ibm-plex-sans-regular text-balance text-xl text-ivory text-center z-20 mt-72 absolute ms-3 animate-fade md:text-5xl lg:text-7xl md:text-wrap">Crafting tailored software solutions to propel business growth and efficiency.</p> : null }
         <Hero isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
         <Section style={"bg-ivory"}>
           <Paragraph textStyle={"ibm-plex-sans-regular text-5xl text-midnight-black text-center h-screen"} text={'Coming soon...'}/>
