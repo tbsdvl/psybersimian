@@ -6,11 +6,11 @@ import React from 'react';
 import {describe, test} from 'vitest';
 import {render} from '../src/util/test';
 import {screen} from '@testing-library/react';
-import { Header } from '../src/components/Header';
+import { Card } from '../src/components/Card';
 
-describe('Header', () => {
-    test('should load the Header component', async () => {
-      render(<Header />);
-      await screen.findByText(/Psybersimian/i);
+describe('Card', () => {
+    test('should load the Card component', async () => {
+      render(<Card />);
+      await screen.findByText(/Test/i);
     });
 });
