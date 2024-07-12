@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 export const App = () => {
   const [count, setCount] = useState(0);
   const [tagLine, setTagLine] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false);
   const baseTagLine = 'No more monkey business';
 
   const buildTagLine = async () => {
@@ -43,7 +44,8 @@ export const App = () => {
       <div>
         <Header />
         <p className="press-start-2p-regular text-nowrap text-sm text-ivory text-center z-50 mt-5 absolute ms-5 lg:text-4xl md:text-wrap">{tagLine}</p>
-        <Hero />
+        { count === baseTagLine.length ? <p className="ibm-plex-sans-regular text-balance text-lg text-ivory text-center z-50 mt-36 absolute ms-3 animate-fade lg:text-7xl md:text-wrap">Crafting tailored software solutions that propel growth and efficiency.</p> : null }
+        <Hero isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
         <p className="ibm-plex-sans-regular text-5xl text-ivory text-center">Coming soon...</p>
       </div>
     </>
