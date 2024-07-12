@@ -93,3 +93,39 @@
   font-weight: 400;
   font-style: normal;
 }
+
+.glow {
+  --blur: 1.75rem;
+  --box-blur: calc(0.5 * var(--blur));
+  --glow: var(--color);
+
+  align-items: center;
+  color: var(--color, white);
+  display: inline-flex;
+  flex-direction: column;
+  font-family: system-ui, sans-serif;
+  height: var(--size);
+  justify-content: space-around;
+  padding: 2rem;
+  width: var(--size);
+
+  text-shadow: 0 1px 0 rgb(120, 0, 0), 0 2px 0 rgb(120, 0, 0),
+  0 3px 0 rgb(120, 0, 0), 0 4px 0 rgb(120, 0, 0),
+  0 5px 0 rgb(120, 0, 0), 0 6px 0 rgb(120, 0, 0),
+  0 7px 0 rgb(120, 0, 0), 0 8px 0 rgb(120, 0, 0),
+  0 9px 0 rgb(120, 0, 0), 0 10px 0 rgb(120, 0, 0),
+  0 11px 0 rgb(120, 0, 0), 0 12px 0 rgb(120, 0, 0),
+  0 20px 30px rgba(0, 0, 0, 0.5);
+
+  > * {
+    margin: 0;
+    padding: 0;
+  }
+
+  &.dot { --color: red; filter: saturate(175%); font-size: 15rem; }
+
+  @media (max-width: 1024px) {
+    &.dot { font-size: 5rem; }
+  }
+}
+
