@@ -15,7 +15,7 @@ import {
 import SceneComponent from "babylonjs-hook";
 import normalmap from "../assets/NormalMap.png";
 
-export const Hero = () => {
+export const Hero = ({ isLoaded, setIsLoaded }: { isLoaded: boolean, setIsLoaded: Function }) => {
   const getRandomColor = (): Color3 => {
     return new Color3(Math.random(), Math.random(), Math.random());
   };
@@ -191,7 +191,7 @@ export const Hero = () => {
     }
 
     const minYPosition: number = 0;
-    const coordinateDifference: number = 0.025;
+    const coordinateDifference: number = 0.009;
     scene.registerBeforeRender(async function () {
       // animate the randomized positions of each sphere
       animateSpheres(
@@ -207,6 +207,9 @@ export const Hero = () => {
 
   const onRender = async (scene: Scene) => {
     scene;
+    if (!isLoaded) {
+      setIsLoaded(true);
+    }
   };
 
   return (
@@ -216,7 +219,7 @@ export const Hero = () => {
         onSceneReady={onSceneReady}
         onRender={onRender}
         id="my-canvas"
-        className="opacity-85"
+        className="opacity-60"
       />
     </>
   );

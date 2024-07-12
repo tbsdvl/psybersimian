@@ -10,7 +10,18 @@ export default {
       'midnight-black': '#000c20',
       'ivory': '#FFFAE0',
     },
-    extend: {},
+    extend: {
+      animation: {
+				fade: 'fadeIn 2s ease-in-out',
+			},
+
+			keyframes: {
+				fadeIn: {
+					from: { opacity: 0 },
+					to: { opacity: 1 },
+				},
+			},
+    },
   },
   plugins: [],
 }
