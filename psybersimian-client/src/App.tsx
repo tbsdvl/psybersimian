@@ -41,7 +41,7 @@ export const App = () => {
     <>
       <div>
         <h1 className="libre-barcode-39-text-regular text-blush-red text-5xl text-center">Psybersimian</h1>
-        <p className="press-start-2p-regular text-nowrap text-sm text-ivory text-center z-50 mt-5 absolute ms-7 me-5 lg:text-4xl md:text-wrap">{tagLine}</p>
+        <p className="press-start-2p-regular text-nowrap text-sm text-ivory text-center z-50 mt-5 absolute ms-5 lg:text-4xl md:text-wrap">{tagLine}</p>
         <Hero />
         <p className="ibm-plex-sans-regular text-5xl text-ivory text-center">Coming soon...</p>
       </div>
