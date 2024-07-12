@@ -15,8 +15,8 @@ export default {
     extend: {
       animation: {
 				fade: 'fadeIn 2s ease-in-out',
+        repeatFade: 'fadeIn 1s ease-in-out infinite;'
 			},
-
 			keyframes: {
 				fadeIn: {
 					from: { opacity: 0 },
