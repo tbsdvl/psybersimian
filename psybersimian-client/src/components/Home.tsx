@@ -79,7 +79,7 @@ export const Home = () => {
             <h2 className="ibm-plex-sans-regular text-5xl text-midnight-black text-center mt-2">Our Team</h2>
             <div className="flex flex-col lg:flex-row justify-center items-center">
               <img className='h-1/3 w-1/3 box-border shadow-md shadow-black rounded-xl mt-10 lg:mt-3' src={developer} />
-              <Paragraph textStyle={"ibm-plex-sans-regular text-lg text-midnight-black text-start mt-5 ms-10 p-5 lg:text-3xl"} text={'Our team comprises a number of talented, well-rounded engineers with solid reputations across multiple public and private sector organizations. We work diligently with our customers so that satisfaction is guaranteed upon product delivery.'}/>
+              <Paragraph textStyle={"ibm-plex-sans-regular text-md text-midnight-black text-start mt-5 ms-10 p-5 lg:text-3xl"} text={'Our team comprises a number of talented, well-rounded engineers with solid reputations across multiple public and private sector organizations. We work diligently with our customers so that satisfaction is guaranteed upon product delivery.'}/>
             </div>
           </Card>
         </Section>
