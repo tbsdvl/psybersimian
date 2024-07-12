@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Hero } from './Hero';
-import { Header } from './Header';
 import { Section } from './Section';
 import { Paragraph } from './Paragraph';
 
