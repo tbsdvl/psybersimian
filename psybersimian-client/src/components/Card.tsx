@@ -1,6 +1,6 @@
 import { Children, useEffect, useState } from "react";
 
-export const Card = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
+export const Card = ({ animationStyle, children }: { animationStyle: string, children: JSX.Element | JSX.Element[] }) => {
     const mappedChildren = Children.map(children, child =>
         <div>
             {child}
@@ -40,7 +40,7 @@ export const Card = ({ children }: { children: JSX.Element | JSX.Element[] }) =>
     return (
         <>
             <div className="card-wrapper flex flex-col justify-center items-center">
-                <div className="card box-border h-6/12 w-3/4 p-4 shadow-lg m-5 shadow-black invisible">
+                <div className={animationStyle}>
                     {...mappedChildren}
                 </div>
             </div>

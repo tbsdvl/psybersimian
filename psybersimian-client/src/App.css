@@ -130,10 +130,14 @@
 }
 
 .card {
-  width: 50vw;
-  height: 50vh;
+  height: 75vh;
   background-color: rgb(248 250 252);
   animation-fill-mode: forwards;
+}
+
+.static-card {
+  height: 75vh;
+  background-color: rgb(248 250 252);
 }
 
 @keyframes expand {
@@ -148,6 +152,15 @@
     visibility: visible;
 	}
 }
+
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .card-animation {
