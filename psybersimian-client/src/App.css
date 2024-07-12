@@ -129,3 +129,41 @@
   }
 }
 
+.card {
+  height: 75vh;
+  background-color: rgb(248 250 252);
+  animation-fill-mode: forwards;
+}
+
+.static-card {
+  height: 75vh;
+  background-color: rgb(248 250 252);
+}
+
+@keyframes expand {
+	0% {
+		transform: scaleY(0);
+    opacity: 0;
+    visibility: hidden;
+	}
+	100% {
+		transform: scaleY(1);
+    opacity: 1;
+    visibility: visible;
+	}
+}
+
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .card-animation {
+    animation: expand 1s 1;
+  }
+}
