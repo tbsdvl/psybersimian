@@ -148,7 +148,7 @@ export const Hero = () => {
   };
 
   const onSceneReady = (scene: Scene): void => {
-    scene.clearColor = new Color4(0, 0, 0);
+    scene.clearColor = Color4.FromHexString("#000c20");
 
     const camera = new FreeCamera("camera1", new Vector3(9, 0, 5), scene);
     camera.setTarget(new Vector3(2, 10, 5));
@@ -216,6 +216,7 @@ export const Hero = () => {
         onSceneReady={onSceneReady}
         onRender={onRender}
         id="my-canvas"
+        className="opacity-85"
       />
     </>
   );
