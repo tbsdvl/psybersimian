@@ -148,7 +148,7 @@ export const Hero = ({ isLoaded, setIsLoaded }: { isLoaded: boolean, setIsLoaded
   };
 
   const onSceneReady = (scene: Scene): void => {
-    scene.clearColor = Color4.FromHexString("#000c20");
+    scene.clearColor = Color4.FromHexString('#0B0B10');
 
     const camera = new FreeCamera("camera1", new Vector3(9, 0, 5), scene);
     camera.setTarget(new Vector3(2, 10, 5));
@@ -191,7 +191,7 @@ export const Hero = ({ isLoaded, setIsLoaded }: { isLoaded: boolean, setIsLoaded
     }
 
     const minYPosition: number = 0;
-    const coordinateDifference: number = 0.009;
+    const coordinateDifference: number = Math.PI * 0.009;
     scene.registerBeforeRender(async function () {
       // animate the randomized positions of each sphere
       animateSpheres(
