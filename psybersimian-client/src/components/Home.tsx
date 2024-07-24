@@ -49,7 +49,7 @@ export const Home = () => {
         { count === baseTagLine.length ? <p className="ibm-plex-sans-regular text-balance text-xl text-ivory text-center z-20 mt-72 absolute ms-3 animate-fade md:text-5xl lg:text-7xl md:text-wrap">Crafting tailored software solutions to propel business growth and efficiency.</p> : null }
         <Hero isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
         <Section style={"bg-ivory h-screen"}>
-          <Card animationStyle={"card box-border h-5/6 w-3/4 p-4 shadow-lg m-10 shadow-black invisible"}>
+          <Card animationStyle={"card box-border h-5/6 w-3/4 p-4 shadow-lg m-10 shadow-black"}>
             <h2 className="ibm-plex-sans-regular text-2xl text-midnight-black text-center mt-2 lg:text-5xl">Applications</h2>
             <div className="flex flex-col text-start ms-10 p-5 justify-around">
               <div className='flex flex-row'>
