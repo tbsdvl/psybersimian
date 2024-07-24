@@ -16,6 +16,7 @@ import SceneComponent from "babylonjs-hook";
 import normalmap from "../assets/NormalMap.png";
 
 export const Hero = ({ isLoaded, setIsLoaded }: { isLoaded: boolean, setIsLoaded: Function }) => {
+  const defaultInterval = 0.005;
   const getRandomColor = (): Color3 => {
     return new Color3(Math.random(), Math.random(), Math.random());
   };
@@ -125,23 +126,23 @@ export const Hero = ({ isLoaded, setIsLoaded }: { isLoaded: boolean, setIsLoaded
         if (currentSphere.isScalingUp && currentSphere.scaling.y >= 1) {
           currentSphere.isScalingUp = false;
           currentSphere.isScalingDown = true;
-          currentSphere.scaling.y -= getRandomNumber(0.005);
-          currentSphere.scaling.x -= getRandomNumber(0.005);
-          currentSphere.scaling.z -= getRandomNumber(0.005);
+          currentSphere.scaling.y -= getRandomNumber(defaultInterval);
+          currentSphere.scaling.x -= getRandomNumber(defaultInterval);
+          currentSphere.scaling.z -= getRandomNumber(defaultInterval);
         } else if (currentSphere.isScalingDown && currentSphere.scaling.y < 1) {
           currentSphere.isScalingUp = true;
           currentSphere.isScalingDown = false;
-          currentSphere.scaling.y += getRandomNumber(0.005);
-          currentSphere.scaling.x += getRandomNumber(0.005);
-          currentSphere.scaling.z += getRandomNumber(0.005);
+          currentSphere.scaling.y += getRandomNumber(defaultInterval);
+          currentSphere.scaling.x += getRandomNumber(defaultInterval);
+          currentSphere.scaling.z += getRandomNumber(defaultInterval);
         } else if (currentSphere.isScalingUp) {
-            currentSphere.scaling.y += getRandomNumber(0.005);
-            currentSphere.scaling.x += getRandomNumber(0.005);
-            currentSphere.scaling.z += getRandomNumber(0.005);
+            currentSphere.scaling.y += getRandomNumber(defaultInterval);
+            currentSphere.scaling.x += getRandomNumber(defaultInterval);
+            currentSphere.scaling.z += getRandomNumber(defaultInterval);
         } else if (currentSphere.isScalingDown) {
-            currentSphere.scaling.y -= getRandomNumber(0.005);
-            currentSphere.scaling.x -= getRandomNumber(0.005);
-            currentSphere.scaling.z -= getRandomNumber(0.005);
+            currentSphere.scaling.y -= getRandomNumber(defaultInterval);
+            currentSphere.scaling.x -= getRandomNumber(defaultInterval);
+            currentSphere.scaling.z -= getRandomNumber(defaultInterval);
         }
       }
     }

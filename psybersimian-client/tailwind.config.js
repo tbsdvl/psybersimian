@@ -23,6 +23,12 @@ export default {
 					to: { opacity: 1 },
 				},
 			},
+      screens: {
+        'sm': { 'raw': '(min-width: 375px and min-height: 667px)' }
+      },
+      fontSize: {
+        'super-xs': ['0.6rem', '1rem']
+      },
     },
   },
   plugins: [],
