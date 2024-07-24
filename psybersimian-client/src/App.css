@@ -167,3 +167,9 @@
     animation: expand 1s 1;
   }
 }
+
+@media (max-height: 667px) {
+  .card {
+    height: auto;
+  }
+}
